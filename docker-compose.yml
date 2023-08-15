@@ -1,0 +1,26 @@
+version: "3.2"
+
+services:
+
+  api:
+    build: ./images/api
+    ports:
+      - 80:3000
+    volumes:
+      - ./images/api/src:/usr/app/src
+    environment:
+      PG_CONNECTION_STRING: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@store:5432/${POSTGRES_DB}"
+      
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
