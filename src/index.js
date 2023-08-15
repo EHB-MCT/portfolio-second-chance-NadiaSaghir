@@ -7,7 +7,7 @@ app.get("/", (request, response) =>{
 
 app.listen(3000, (err) => {
     if (!err) {
-        console.log("runnung on port " + 3000);
+        console.log("running on port " + 3000);
     }
     else {
         console.error(err)
