@@ -83,6 +83,16 @@ app.post('/signup', async (req, res) => {
     }
   });
 
+// GET all users, example: http://localhost:80/users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await db.select().from('users');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching users.' });
+  }
+}); 
+
   app.listen(port, (err) => {
     if (!err) {
         console.log(`Server is running on port ${port}`);
