@@ -18,6 +18,7 @@ const db = knex({
     }
   });
 
+// USERS  
 // Create user table if doesn't exist
 db.schema
 .hasTable('users')
@@ -34,6 +35,8 @@ db.schema
   .then(() => console.log('User table created'))
   .catch((error) => console.error(error));
 
+// RECIPES
+// Create user table if doesn't exist
 db.schema
   .hasTable('recipes')
   .then((exists) => {
@@ -51,7 +54,7 @@ db.schema
   .then(() => console.log('Recipes table created'))
   .catch((error) => console.error(error));
 
-
+// USERS
 // POST Sign Up
 app.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
@@ -75,7 +78,7 @@ app.post('/signup', async (req, res) => {
   
   
 // POST login
-  app.post('/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     try {
@@ -103,14 +106,16 @@ app.post('/signup', async (req, res) => {
 
 // GET all users, example: http://localhost:80/users
 app.get('/users', async (req, res) => {
-  try {
-    const users = await db.select().from('users');
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching users.' });
-  }
+    try {
+        const users = await db.select().from('users');
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while fetching users.' });
+    }
 });
 
+// RECIPES
+// Post a new recipe
 app.post('/recipes', async (req, res) => {
     const { title, ingredients, preparation, servings, image } = req.body;
   
@@ -130,6 +135,7 @@ app.post('/recipes', async (req, res) => {
     }
   });
 
+// Get all recipes
 app.get('/recipes', async (req, res) => {
     try {
       const recipes = await db.select().from('recipes');
@@ -139,6 +145,7 @@ app.get('/recipes', async (req, res) => {
     }
   });
 
+// USERS
 // DELETE all users, example: http://localhost:80/users
 app.delete('/users', async (req, res) => {
     try {
@@ -170,8 +177,8 @@ app.delete('/users/:id', async (req, res) => {
     }
   });
   
-
-  app.listen(port, (err) => {
+// Server setup
+app.listen(port, (err) => {
     if (!err) {
         console.log(`Server is running on port ${port}`);
     }
