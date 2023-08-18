@@ -130,6 +130,15 @@ app.post('/recipes', async (req, res) => {
     }
   });
 
+app.get('/recipes', async (req, res) => {
+    try {
+      const recipes = await db.select().from('recipes');
+      res.json(recipes);
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while fetching recipes.' });
+    }
+  });
+
 // DELETE all users, example: http://localhost:80/users
 app.delete('/users', async (req, res) => {
     try {
