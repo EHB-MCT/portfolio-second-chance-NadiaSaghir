@@ -54,7 +54,35 @@ app.post('/signup', async (req, res) => {
       res.status(500).json({ error: 'An error occurred while registering the user.' });
     }
   });
-   
+  
+  
+// POST login
+  app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      // Check if user with this email exists
+      const user = await db('users').where('email', email).first();
+  
+      if (!user) {
+        res.status(404).json({ error: 'User not found.' });
+      } else {
+        const hash = crypto.createHash('sha256');
+        const hashedInputPassword = hash.update(password).digest('hex');
+  
+        // Compare input password with hashed password stored in users table
+        if (hashedInputPassword === user.password) {
+          res.json({ message: 'User logged in successfully.' });
+        } else {
+          res.status(401).json({ error: 'Incorrect password.' });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while logging in.' });
+    }
+  });
+    
 
   app.listen(port, (err) => {
     if (!err) {
