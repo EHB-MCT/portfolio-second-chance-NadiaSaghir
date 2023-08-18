@@ -82,7 +82,6 @@ app.post('/signup', async (req, res) => {
       res.status(500).json({ error: 'An error occurred while logging in.' });
     }
   });
-    
 
   app.listen(port, (err) => {
     if (!err) {
