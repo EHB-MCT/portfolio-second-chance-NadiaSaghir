@@ -1,10 +1,13 @@
 const express = require ("express");
 const knex = require('knex');
+const crypto = require('crypto');
 
 const app = express();
 const port = 3000;
 
-// Create a Knex instance with PostgreSQL as the database driver
+app.use(express.json());
+
+// Knex instance with PostgreSQL as the database driver
 const db = knex({
     client: 'pg',
     connection: {
@@ -14,8 +17,8 @@ const db = knex({
       database: 'test'
     }
   });
-  
-// Create the user table if it doesn't exist
+
+// Create user table if doesn't exist
 db.schema
 .hasTable('users')
 .then((exists) => {
@@ -24,45 +27,36 @@ db.schema
       table.increments('id').primary();
       table.string('name');
       table.string('email').unique();
+      table.string('password');
     });
   }
 })
   .then(() => console.log('User table created'))
   .catch((error) => console.error(error));
 
-app.use(express.json()); // Enable JSON parsing for incoming requests
+// POST Sign Up
+app.post('/signup', async (req, res) => {
+    const { name, email, password } = req.body;
+  
+    try {
+      // Create a hash
+      const hash = crypto.createHash('sha256');
+  
+      // Hash password
+      const hashedPassword = hash.update(password).digest('hex');
+  
+      // Insert new user to users table with hashed password
+      await db('users').insert({ name, email, password: hashedPassword });
+  
+      res.status(201).json({ message: 'User registered successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while registering the user.' });
+    }
+  });
+   
 
-// Define a route to add a new user
-app.post('/users', async (req, res) => {
-  const { name, email } = req.body;
-
-  try {
-    // Insert the new user into the database
-    await db('users').insert({ name, email });
-
-    res.status(201).json({ message: 'User created successfully.' });
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred while creating the user.' });
-  }
-});
-
-// Define a route to retrieve all users
-app.get('/users', async (req, res) => {
-  try {
-    const users = await db.select().from('users');
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching users.' });
-  }
-});
-
-
-// New route for the root page
-app.get("/", (req, res) => {
-    res.send({ message: "Hey world" });
-});
-
-app.listen(port, (err) => {
+  app.listen(port, (err) => {
     if (!err) {
         console.log(`Server is running on port ${port}`);
     }
