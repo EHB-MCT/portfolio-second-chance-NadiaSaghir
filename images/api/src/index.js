@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require ("express");
 const knex = require('knex');
 const crypto = require('crypto');
@@ -21,9 +23,9 @@ const db = knex({
     client: 'pg',
     connection: {
       host: 'db',
-      user: 'root',
-      password: 'root',
-      database: 'test'
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB
     }
   });
 
