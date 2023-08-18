@@ -1,11 +1,20 @@
 const express = require ("express");
 const knex = require('knex');
 const crypto = require('crypto');
+const session = require('express-session');
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+
+app.use(
+    session({
+      secret: 'its-a-secret-key-you-will-not-find-it-haha',
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 
 // Knex instance with PostgreSQL as the database driver
 const db = knex({
@@ -17,6 +26,18 @@ const db = knex({
       database: 'test'
     }
   });
+
+
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+      next();
+    } else {
+      res.status(401).json({ error: 'You need to be logged in to post a recipe.' });
+    }
+  }
+  
 
 // USERS  
 // Create user table if doesn't exist
@@ -43,6 +64,7 @@ db.schema
     if (!exists) {
       return db.schema.createTable('recipes', function (table) {
         table.increments('id').primary();
+        table.integer('user_id').unsigned();
         table.string('title');
         table.text('ingredients');
         table.text('preparation');
@@ -93,6 +115,7 @@ app.post('/login', async (req, res) => {
   
         // Compare input password with hashed password stored in users table
         if (hashedInputPassword === user.password) {
+          req.session.userId = user.id;
           res.json({ message: 'User logged in successfully.' });
         } else {
           res.status(401).json({ error: 'Incorrect password.' });
@@ -116,29 +139,35 @@ app.get('/users', async (req, res) => {
 
 // RECIPES
 // Post a new recipe
-app.post('/recipes', async (req, res) => {
-    const { title, ingredients, preparation, servings, image } = req.body;
-  
-    try {
-      await db('recipes').insert({
-        title,
-        ingredients,
-        preparation,
-        servings,
-        image
-      });
-  
-      res.status(201).json({ message: 'Recipe added successfully.' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'An error occurred while adding the recipe.' });
-    }
-  });
+app.post('/recipes', isAuthenticated, async (req, res) => {
+  const { title, ingredients, preparation, servings, image } = req.body;
+  const userId = req.session.userId;
+
+  try {
+    await db('recipes').insert({
+      title,
+      ingredients,
+      preparation,
+      servings,
+      image,
+      user_id: userId,
+});
+
+    res.status(201).json({ message: 'Recipe added successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while adding the recipe.' });
+  }
+});
 
 // Get all recipes
 app.get('/recipes', async (req, res) => {
     try {
-      const recipes = await db.select().from('recipes');
+      const recipes = await db
+        .select('recipes.id', 'title', 'ingredients', 'preparation', 'servings', 'image', 'user_id', 'users.name as user_name')
+        .from('recipes')
+        .leftJoin('users', 'recipes.user_id', 'users.id');
+  
       res.json(recipes);
     } catch (error) {
       res.status(500).json({ error: 'An error occurred while fetching recipes.' });
