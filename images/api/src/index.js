@@ -34,7 +34,6 @@ db.schema
   .then(() => console.log('User table created'))
   .catch((error) => console.error(error));
 
-// Create user table if doesn't exist
 db.schema
   .hasTable('recipes')
   .then((exists) => {
@@ -64,7 +63,7 @@ app.post('/signup', async (req, res) => {
       // Hash password
       const hashedPassword = hash.update(password).digest('hex');
   
-      // Insert new user to users table with hashed password
+      // Insert new user into users table with hashed password
       await db('users').insert({ name, email, password: hashedPassword });
   
       res.status(201).json({ message: 'User registered successfully.' });
@@ -112,6 +111,24 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.post('/recipes', async (req, res) => {
+    const { title, ingredients, preparation, servings, image } = req.body;
+  
+    try {
+      await db('recipes').insert({
+        title,
+        ingredients,
+        preparation,
+        servings,
+        image
+      });
+  
+      res.status(201).json({ message: 'Recipe added successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while adding the recipe.' });
+    }
+  });
 
 // DELETE all users, example: http://localhost:80/users
 app.delete('/users', async (req, res) => {
