@@ -91,7 +91,40 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while fetching users.' });
   }
-}); 
+});
+
+
+// DELETE all users, example: http://localhost:80/users
+app.delete('/users', async (req, res) => {
+    try {
+      // Delete all users
+      await db('users').del();
+      
+      res.json({ message: 'All users deleted successfully.' });
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while deleting users.' });
+    }
+  });
+  
+
+// DELETE a specific user by ID, example: http://localhost:80/users/8
+app.delete('/users/:id', async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+      // Delete user with specified ID from database
+      const deletedCount = await db('users').where('id', userId).del();
+      
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'User not found.' });
+      } else {
+        res.json({ message: 'User deleted successfully.' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while deleting the user.' });
+    }
+  });
+  
 
   app.listen(port, (err) => {
     if (!err) {
