@@ -6,6 +6,7 @@ const { isAuthenticated } = require('../middleware/middleware');
 const userRouter = express.Router();
 
 // POST Sign Up
+// http://localhost:80/signup
 userRouter.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -21,12 +22,14 @@ userRouter.post('/signup', async (req, res) => {
 
         res.status(201).json({ message: 'User registered successfully.' });
     } catch (error) {
+        // Log error to console for debugging
         console.error(error);
         res.status(500).json({ error: 'An error occurred while registering the user.' });
     }
 });
 
 // POST login
+// http://localhost:80/login
 userRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -49,13 +52,15 @@ userRouter.post('/login', async (req, res) => {
             }
         }
     } catch (error) {
+        // Log error to console for debugging
         console.error(error);
         res.status(500).json({ error: 'An error occurred while logging in.' });
     }
 });
 
 // GET all users
-userRouter.get('/', async (req, res) => {
+// http://localhost:80/users
+userRouter.get('/users', async (req, res) => {
     try {
         const users = await db.select().from('users');
         res.json(users);
@@ -65,6 +70,7 @@ userRouter.get('/', async (req, res) => {
 });
 
 // DELETE all users
+// http://localhost:80/users
 userRouter.delete('/', async (req, res) => {
     try {
         // Delete all users
@@ -77,7 +83,8 @@ userRouter.delete('/', async (req, res) => {
 });
 
 // DELETE a specific user by ID
-userRouter.delete('/:id', async (req, res) => {
+// http://localhost:80/users/6
+userRouter.delete('/users/:id', async (req, res) => {
     const userId = req.params.id;
 
     try {
