@@ -21,7 +21,7 @@ app.use(
 app.use('/', userRoutes); // USERS ENDPOINTS
 app.use('/recipes', recipeRoutes); // RECIPES ENDPOINTS
 
-app.listen(port, (err) => {
+  app.listen(port, (err) => {
     if (!err) {
         console.log(`Server is running on port ${port}`);
     } else {
