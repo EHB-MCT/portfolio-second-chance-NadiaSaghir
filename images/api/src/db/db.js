@@ -12,7 +12,8 @@ const db = knex({
 });
 
 
-db.raw('SELECT 1') // Test the connection
+// Test the database connection
+db.raw('SELECT 1')
     .then(() => {
         console.log('Database connected successfully');
     })

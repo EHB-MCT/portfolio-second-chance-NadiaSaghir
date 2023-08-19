@@ -18,8 +18,8 @@ app.use(
 );
 
 // Use the user and recipe routes
-app.use('/', userRoutes);
-app.use('/recipes', recipeRoutes);
+app.use('/', userRoutes); // USERS ENDPOINTS
+app.use('/recipes', recipeRoutes); // RECIPES ENDPOINTS
 
 app.listen(port, (err) => {
     if (!err) {
