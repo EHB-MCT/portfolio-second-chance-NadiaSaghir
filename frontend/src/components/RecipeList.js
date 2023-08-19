@@ -1,17 +1,22 @@
+// Import necessary React features
 import React, { useEffect, useState } from 'react';
 
 function RecipeList() {
+  // State to store recipes and loading status
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetch recipes from server
     fetch('http://localhost:80/recipes')
       .then((response) => response.json())
       .then((data) => {
+        // Set retrieved recipes and update loading status
         setRecipes(data);
         setLoading(false);
       })
       .catch((error) => {
+        // Handle errors during data fetching
         console.error('Error fetching recipes:', error);
         setLoading(false);
       });
