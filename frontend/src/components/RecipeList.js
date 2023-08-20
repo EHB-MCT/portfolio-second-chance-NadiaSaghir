@@ -1,5 +1,6 @@
 // Import necessary React features
 import React, { useEffect, useState } from 'react';
+import Navbar from './Navigation';
 
 function RecipeList() {
   // State to store recipes and loading status
@@ -28,6 +29,7 @@ function RecipeList() {
 
   return (
     <div>
+      <Navbar />
       <h2>Recipes</h2>
       <ul>
         {recipes.map((recipe) => (

@@ -24,7 +24,7 @@ db.schema
   .catch((error) => console.error(error));
 
 // Post a new recipe
-recipeRouter.post('/', isAuthenticated, async (req, res) => {
+recipeRouter.post('/', async (req, res) => {
     const { title, ingredients, preparation, servings, image } = req.body;
     const userId = req.session.userId;
 

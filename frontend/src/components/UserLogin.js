@@ -32,7 +32,7 @@ function UserLogin() {
 
       if (response.status === 200) {
         setMessage('User logged in successfully.');
-        history.push('/recipes');
+        history.push('/add-recipe');
       } else if (response.status === 401) {
         setMessage('Incorrect password.');
       } else {
@@ -49,7 +49,7 @@ function UserLogin() {
       <h2>Login</h2>
       {message && <div className="message">{message}</div>}
       <form onSubmit={handleSubmit}>
-        {/* Add your form inputs here */}
+        {}
         <input
           type="text"
           name="email"
