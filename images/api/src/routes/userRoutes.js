@@ -5,6 +5,22 @@ const { isAuthenticated } = require('../middleware/middleware');
 
 const userRouter = express.Router();
 
+// Create user table if doesn't exist
+db.schema
+.hasTable('users')
+.then((exists) => {
+  if (!exists) {
+    return db.schema.createTable('users', function (table) {
+      table.increments('id').primary();
+      table.string('name');
+      table.string('email').unique();
+      table.string('password');
+    });
+  }
+})
+  .then(() => console.log('User table created'))
+  .catch((error) => console.error(error));
+
 // POST Sign Up
 // http://localhost:80/signup
 userRouter.post('/signup', async (req, res) => {
