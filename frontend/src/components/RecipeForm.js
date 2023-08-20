@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from './Navigation';
 
+/**
+ * Functional component representing a form for adding a new recipe.
+ *
+ * @returns {JSX.Element} The JSX element representing the recipe form.
+ */
 function RecipeForm() {
+  // State to manage form data and display messages
   const [formData, setFormData] = useState({
     title: '',
     ingredients: '',
@@ -11,8 +17,15 @@ function RecipeForm() {
     image: '',
   });
   const [message, setMessage] = useState('');
+
+  // Access the history object to navigate after form submission
   const history = useHistory();
 
+  /**
+   * Event handler for input field changes.
+   *
+   * @param {Event} e - The input change event.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,9 +34,15 @@ function RecipeForm() {
     });
   };
 
+  /**
+   * Event handler for form submission.
+   *
+   * @param {Event} e - The form submit event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if all required fields are filled
     if (!formData.title || !formData.ingredients || !formData.preparation || !formData.servings || !formData.image) {
         setMessage('Please fill out all required fields.');
         return; 
@@ -40,7 +59,7 @@ function RecipeForm() {
 
       if (response.status === 201) {
         setMessage('Recipe added successfully.');
-        history.push('/');
+        history.push('/'); // Redirect to the home page after successful submission
       } else {
         setMessage('Recipe creation failed.');
       }

@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Functional component representing the navigation menu.
+ * This component renders a list of links for navigating the application.
+ *
+ * @returns {JSX.Element} The JSX element representing the navigation menu.
+ */
 function Navigation() {
   return (
     <nav>
