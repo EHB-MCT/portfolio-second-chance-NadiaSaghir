@@ -21,8 +21,13 @@ db.schema
   .then(() => console.log('User table created'))
   .catch((error) => console.error(error));
 
-// POST Sign Up
-// http://localhost:80/signup
+/**
+ * Route for user registration (Sign Up).
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 userRouter.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -44,8 +49,13 @@ userRouter.post('/signup', async (req, res) => {
     }
 });
 
-// POST login
-// http://localhost:80/login
+/**
+ * Route for user login.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 userRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -74,8 +84,13 @@ userRouter.post('/login', async (req, res) => {
     }
 });
 
-// GET all users
-// http://localhost:80/users
+/**
+ * Route for getting all users from the database.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 userRouter.get('/users', async (req, res) => {
     try {
         const users = await db.select().from('users');
@@ -85,8 +100,13 @@ userRouter.get('/users', async (req, res) => {
     }
 });
 
-// DELETE all users
-// http://localhost:80/users
+/**
+ * Route for deleting all users from the database.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 userRouter.delete('/', async (req, res) => {
     try {
         // Delete all users
@@ -98,8 +118,14 @@ userRouter.delete('/', async (req, res) => {
     }
 });
 
-// DELETE a specific user by ID
-// http://localhost:80/users/6
+
+/**
+ * Route for deleting a specific user by ID.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 userRouter.delete('/users/:id', async (req, res) => {
     const userId = req.params.id;
 

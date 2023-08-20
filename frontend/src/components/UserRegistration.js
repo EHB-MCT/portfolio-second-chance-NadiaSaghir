@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from './Navigation';
 
+/**
+ * Functional component representing a user registration form.
+ *
+ * @returns {JSX.Element} The JSX element representing the registration form.
+ */
 function UserRegistration() {
+  // State to store user registration data and display messages
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,6 +17,11 @@ function UserRegistration() {
   const [message, setMessage] = useState('');
   const history = useHistory();
 
+  /**
+   * Event handler for input field changes.
+   *
+   * @param {Event} e - The input change event.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,6 +30,11 @@ function UserRegistration() {
     });
   };
 
+  /**
+   * Event handler for form submission.
+   *
+   * @param {Event} e - The form submit event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,7 +49,7 @@ function UserRegistration() {
 
       if (response.status === 201) {
         setMessage('User registered successfully. Please log in.');
-        history.push('/login');
+        history.push('/login'); // Redirect to the login page after successful registration
       } else if (response.status === 500) {
         setMessage('An error occurred while registering the user.');
       } else {
@@ -44,6 +60,7 @@ function UserRegistration() {
     }
   };
 
+  // Render the registration form
   return (
     <div>
       <Navbar />
