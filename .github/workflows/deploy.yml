@@ -1,0 +1,57 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env: 
+  POSTGRES_USER: root
+  POSTGRES_PASSWORD: root
+  POSTGRES_DATABASE: test
+  
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build docker containers
+        run: docker-compose build 
+      
+      - name: run docker containers
+        run: docker-compose up -d
+      
+      - name: run npm install
+        run: |
+          cd images/api
+          npm ci
+          
+      - name: run tests
+        run: |
+          cd images/api
+          run src/__tests__/recipeRoutes.test.js
+          run src/__tests__/userRoutes.test.js
+          run src/__tests__/routes.test.js
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build
+        run: docker-compose build
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      - name: publish
+        run: docker-compose push
