@@ -4,13 +4,15 @@ const { isAuthenticated } = require('../middleware/middleware');
 
 const recipeRouter = express.Router();
 
-// Create recipe table if doesn't exist
+
+// Create user table if doesn't exist
 db.schema
   .hasTable('recipes')
   .then((exists) => {
     if (!exists) {
       return db.schema.createTable('recipes', function (table) {
         table.increments('id').primary();
+        table.integer('user_id').unsigned();
         table.string('title');
         table.text('ingredients');
         table.text('preparation');
