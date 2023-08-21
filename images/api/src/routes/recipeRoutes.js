@@ -4,6 +4,7 @@ const { isAuthenticated } = require('../middleware/middleware');
 
 const recipeRouter = express.Router();
 
+
 // Create user table if doesn't exist
 db.schema
   .hasTable('recipes')
