@@ -6,19 +6,33 @@ const db = require('../db/db');
 chai.use(chaiHttp);
 const expect = chai.expect;
 
+/**
+ * Test suite for User and Recipe Routes.
+ */
 describe('User and Recipe Routes', () => {
   before(async () => {
+    // Ensure the database is up to date before running tests.
     await db.migrate.latest();
 
   });
 
   after(async () => {
+    // Clean up the database after running tests.
     await db.destroy();
   });
 
+  /**
+   * Test suite for User Routes.
+   */
   describe('User Routes', () => {
+    /**
+     * Test for creating a new user account.
+     */
     describe('POST /signup', () => {
       it('should create a new user account', async () => {
+        /**
+         * @type {Object}
+         */
         const newUser = {
           username: 'testuser',
           password: 'testpassword',
@@ -34,7 +48,9 @@ describe('User and Recipe Routes', () => {
       });
 
       it('should handle errors when creating a new user account', async () => {
+        // Test case for creating a new user with invalid data.
         const invalidUser = {
+            // Add invalid user data here.
         };
 
         const res = await chai
@@ -47,8 +63,14 @@ describe('User and Recipe Routes', () => {
       });
     });
 
+    /**
+     * Test for logging in an existing user.
+     */
     describe('POST /login', () => {
       it('should log in an existing user', async () => {
+        /**
+         * @type {Object}
+         */
         const userCredentials = {
           username: 'testuser',
           password: 'testpassword',
@@ -64,6 +86,7 @@ describe('User and Recipe Routes', () => {
       });
 
       it('should handle errors when logging in', async () => {
+        // Test case for logging in with invalid credentials.
         const invalidCredentials = {
           username: 'nonexistentuser',
           password: 'incorrectpassword',
@@ -79,6 +102,9 @@ describe('User and Recipe Routes', () => {
       });
     });
 
+    /**
+     * Test for fetching all users.
+     */
     describe('GET /users', () => {
       it('should fetch all users', async () => {
         const res = await chai
@@ -90,6 +116,7 @@ describe('User and Recipe Routes', () => {
       });
 
       it('should handle errors when fetching users', async () => {
+        // Test case for fetching users from an invalid route.
         const res = await chai
           .request(app)
           .get('/invalid-route');
@@ -99,6 +126,9 @@ describe('User and Recipe Routes', () => {
       });
     });
 
+    /**
+     * Test for deleting all users.
+     */
     describe('DELETE /users', () => {
       it('should delete all users', async () => {
         const res = await chai
@@ -110,8 +140,12 @@ describe('User and Recipe Routes', () => {
       });
     });
 
+    /**
+     * Test for deleting a specific user by ID.
+     */
     describe('DELETE /users/:id', () => {
       it('should delete a specific user by ID', async () => {
+        // ID of the user to be deleted.
         const userIdToDelete = 123;
 
         const res = await chai
@@ -124,9 +158,18 @@ describe('User and Recipe Routes', () => {
     });
   });
 
+  /**
+   * Test suite for Recipe Routes.
+   */
   describe('Recipe Routes', () => {
+    /**
+     * Test for creating a new recipe.
+     */
     describe('POST /recipes', () => {
       it('should create a new recipe', async () => {
+        /**
+         * @type {Object}
+         */
         const newRecipe = {
           title: 'Test Recipe',
           ingredients: 'Test Ingredients',
@@ -145,7 +188,9 @@ describe('User and Recipe Routes', () => {
       });
 
       it('should handle errors when adding a new recipe', async () => {
+        // Test case for creating a new recipe with invalid data.
         const invalidRecipe = {
+            // Add invalid recipe data here.
         };
 
         const res = await chai
@@ -158,6 +203,9 @@ describe('User and Recipe Routes', () => {
       });
     });
 
+    /**
+     * Test for fetching all recipes.
+     */
     describe('GET /recipes', () => {
       it('should fetch all recipes', async () => {
         const res = await chai
@@ -169,6 +217,7 @@ describe('User and Recipe Routes', () => {
       });
 
       it('should handle errors when fetching recipes', async () => {
+        // Test case for fetching recipes from an invalid route.
         const res = await chai
           .request(app)
           .get('/invalid-route');
