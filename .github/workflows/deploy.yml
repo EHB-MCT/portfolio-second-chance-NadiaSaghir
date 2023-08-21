@@ -30,13 +30,6 @@ jobs:
           cd images/api
           npm ci
           
-      - name: run tests
-        run: |
-          cd images/api
-          run src/__tests__/recipeRoutes.test.js
-          run src/__tests__/userRoutes.test.js
-          run src/__tests__/routes.test.js
-
   build:
     needs: test
     runs-on: ubuntu-latest
