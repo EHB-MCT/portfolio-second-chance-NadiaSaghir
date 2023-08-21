@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Navbar from './Navigation';
 
+/**
+ * Functional component representing a user login form.
+ *
+ * @returns {JSX.Element} The JSX element representing the login form.
+ */
 function UserLogin() {
+  // State to store user login data and display messages
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -10,6 +16,11 @@ function UserLogin() {
   const [message, setMessage] = useState('');
   const history = useHistory();
 
+  /**
+   * Event handler for input field changes.
+   *
+   * @param {Event} e - The input change event.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -18,6 +29,11 @@ function UserLogin() {
     });
   };
 
+  /**
+   * Event handler for form submission.
+   *
+   * @param {Event} e - The form submit event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,7 +48,7 @@ function UserLogin() {
 
       if (response.status === 200) {
         setMessage('User logged in successfully.');
-        history.push('/recipes');
+        history.push('/add-recipe'); // Redirect to the add recipe page after successful login
       } else if (response.status === 401) {
         setMessage('Incorrect password.');
       } else {
@@ -43,13 +59,14 @@ function UserLogin() {
     }
   };
 
+  // Render the login form
   return (
     <div>
       <Navbar />
       <h2>Login</h2>
       {message && <div className="message">{message}</div>}
       <form onSubmit={handleSubmit}>
-        {/* Add your form inputs here */}
+        {}
         <input
           type="text"
           name="email"
