@@ -43,15 +43,18 @@ Visit `http://localhost:3000` in your browser to access the frontend.
 
 - To test the recipeRoutes run src/__tests__/recipeRoutes.test.js, in the api directory (cd images/api).
 
--- If you have a execution error run this in the api directory (cd images/api) to force the running: powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/recipeRoutes.test.js
+---- If you have a execution error run this in the api directory (cd images/api) to force the running: 
+powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/recipeRoutes.test.js
 
 - To test the routes run src/__tests__/routes.test.js, in the api directory (cd images/api).
 
--- If you have a execution error run this in the api directory (cd images/api) to force the running: powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/routes.test.js
+---- If you have a execution error run this in the api directory (cd images/api) to force the running: 
+powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/routes.test.js
 
 - To test the userRoutes run src/__tests__/userRoutes.test.js, in the api directory (cd images/api).
 
--- If you have a execution error run this in the api directory (cd images/api) to force the running: powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/userRoutes.test.js
+---- If you have a execution error run this in the api directory (cd images/api) to force the running: 
+powershell -ExecutionPolicy Bypass -File "C:\Users\Nadia Saghir\AppData\Roaming\npm\mocha.ps1" src/__tests__/userRoutes.test.js
 
 ## Dependencies
 
