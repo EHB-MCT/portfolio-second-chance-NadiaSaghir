@@ -1,7 +1,11 @@
 // Import the Knex library
 const knex = require('knex');
 
-// Knex instance with PostgreSQL as the database driver
+/**
+ * Knex instance with PostgreSQL as the database driver.
+ *
+ * @type {import('knex')}
+ */
 const db = knex({
     client: 'pg', // PostgreSQL database driver
     connection: {
@@ -13,8 +17,11 @@ const db = knex({
 });
 
 
-// Test the database connection
-db.raw('SELECT 1')
+/**
+ * Test the database connection.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the connection is successful or rejects on error.
+ */db.raw('SELECT 1')
     .then(() => {
         console.log('Database connected successfully');
     })
@@ -22,5 +29,8 @@ db.raw('SELECT 1')
         console.error('Error connecting to the database:', error);
     });
 
-// Export the Knex instance for use in other parts of the application
-module.exports = db;
+/**
+ * Export the Knex instance for use in other parts of the application.
+ *
+ * @type {import('knex')}
+ */module.exports = db;
