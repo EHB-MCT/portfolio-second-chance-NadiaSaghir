@@ -10,8 +10,10 @@ const port = 3000;
 
 app.use(express.json());
 
+// Enable CORS for requests from http://localhost:3000
 app.use(cors({ origin: 'http://localhost:3000' }));
 
+// Configure session management
 app.use(
     session({
         secret: 'its-a-secret-key-you-will-not-find-it-haha',

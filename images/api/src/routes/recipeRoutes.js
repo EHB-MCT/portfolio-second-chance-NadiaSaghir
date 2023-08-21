@@ -4,8 +4,7 @@ const { isAuthenticated } = require('../middleware/middleware');
 
 const recipeRouter = express.Router();
 
-
-// Create user table if doesn't exist
+// Create 'recipes' table if it doesn't exist
 db.schema
   .hasTable('recipes')
   .then((exists) => {
@@ -24,8 +23,14 @@ db.schema
   .then(() => console.log('Recipes table created'))
   .catch((error) => console.error(error));
 
-// Post a new recipe
-recipeRouter.post('/', isAuthenticated, async (req, res) => {
+/**
+ * POST route for adding a new recipe.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
+recipeRouter.post('/', async (req, res) => {
     const { title, ingredients, preparation, servings, image } = req.body;
     const userId = req.session.userId;
 
@@ -46,7 +51,13 @@ recipeRouter.post('/', isAuthenticated, async (req, res) => {
     }
 });
 
-// Get all recipes
+/**
+ * GET route for fetching all recipes.
+ *
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {void}
+ */
 recipeRouter.get('/', async (req, res) => {
     try {
         const recipes = await db
