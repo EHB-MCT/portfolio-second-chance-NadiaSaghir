@@ -5,7 +5,13 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
+/**
+ * Test suite for User Routes.
+ */
 describe('User Routes', () => {
+  /**
+   * Test for fetching all users.
+   */
   it('should return all users', (done) => {
     chai
       .request(app)
@@ -17,7 +23,13 @@ describe('User Routes', () => {
       });
   });
 
+  /**
+   * Test for registering a new user.
+   */
   it('should register a new user', (done) => {
+    /**
+     * @type {Object}
+     */
     const newUser = {
       name: 'TestUser',
       email: 'test@example.com',
